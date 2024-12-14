@@ -18,22 +18,22 @@ dotenv.config();
 
 const app = express();
 const allowedOrigins = [
-  'http://13.235.49.104:5173',
   'http://localhost:5173',
-  'https://your-production-domain.com'
+  'https://internhub-frontend-beta.vercel.app'
 ];
+
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl)
+  origin: function(origin, callback) {
+    // If no origin (e.g., curl requests), allow it
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
+      return callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      return callback(new Error('Not allowed by CORS'));
     }
-  }, // Replace with your frontend URL
-  credentials: true,
+  },
+  credentials: true
 }));
 app.use(express.json());
 
